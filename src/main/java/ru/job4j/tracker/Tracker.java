@@ -45,7 +45,8 @@ public class Tracker {
 
     public boolean replace(int id, Item item) {
         int itemIndex = indexOf(id);
-        if (itemIndex != -1) {
+        boolean rsl = itemIndex != -1;
+        if (rsl) {
             item.setId(id);
             items[itemIndex] = item;
             return true;
@@ -55,7 +56,8 @@ public class Tracker {
 
     public boolean delete(int id) {
         int itemIndex = indexOf(id);
-        if (itemIndex != -1) {
+        boolean rsl = itemIndex != -1;
+        if (rsl) {
             System.arraycopy(items, itemIndex + 1, items, itemIndex, size - itemIndex - 1);
             items[size - 1] = null;
             size--;
