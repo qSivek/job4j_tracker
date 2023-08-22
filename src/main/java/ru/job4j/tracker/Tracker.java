@@ -49,9 +49,8 @@ public class Tracker {
         if (rsl) {
             item.setId(id);
             items[itemIndex] = item;
-            return true;
         }
-        return false;
+        return rsl;
     }
 
     public boolean delete(int id) {
@@ -61,8 +60,7 @@ public class Tracker {
             System.arraycopy(items, itemIndex + 1, items, itemIndex, size - itemIndex - 1);
             items[size - 1] = null;
             size--;
-            return true;
         }
-        return false;
+        return rsl;
     }
 }
