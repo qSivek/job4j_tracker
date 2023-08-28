@@ -10,15 +10,13 @@ public class Matches {
         int count = 11;
         while (count > 0) {
             String player = turn ? "Первый игрок" : "Второй игрок";
-             if (count >= 3) {
-                System.out.println(player + " введите число от 1 до 3:");
-            } else if (count == 1) {
-                System.out.println(player + " забери последнюю спичку");
-            } else {
-                System.out.println(player + " введите число от 1 до 2");
+            switch (count) {
+                case 1 -> System.out.println(player + " забери последнюю спичку");
+                case 2 -> System.out.println(player + " введите число от 1 до 2");
+                default -> System.out.println(player + " введите число от 1 до 3:");
             }
             int matches = Integer.parseInt(input.nextLine());
-            boolean valid = matches < 4 && matches > 0 && matches <= count;
+            boolean valid = matches > 0 && matches <= Math.min(3, count);
             if (valid) {
                 count -= matches;
                 turn = !turn;
