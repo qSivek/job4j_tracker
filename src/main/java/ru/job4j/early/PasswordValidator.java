@@ -4,7 +4,7 @@ public class PasswordValidator {
     private static final String[] FORBIDDEN = {"qwerty", "12345", "password", "admin", "user"};
 
     private static boolean validQwerty(String password) {
-        for (String s : PasswordValidator.FORBIDDEN) {
+        for (String s : FORBIDDEN) {
             if (password.toLowerCase().contains(s)) {
                 return true;
             }
@@ -18,10 +18,28 @@ public class PasswordValidator {
         }
 
         boolean hasMoreEightLessThirtyTwo = password.length() > 7 && password.length() < 33;
-        boolean hasUpCase = password.matches(".*[A-Z].*");
-        boolean hasLowCase = password.matches(".*[a-z].*");
-        boolean hasDigit = password.matches(".*[0-9].*");
-        boolean hasSpecial = password.matches(".*[/*!@#$%^&(){}_|?<>].*");
+        boolean hasUpCase = false;
+        boolean hasLowCase = false;
+        boolean hasDigit = false;
+        boolean hasSpecial = false;
+
+        for (char symbol : password.toCharArray()) {
+            if (Character.isUpperCase(symbol)) {
+                hasUpCase = true;
+            }
+            if (Character.isLowerCase(symbol)) {
+                hasLowCase = true;
+            }
+            if (Character.isDigit(symbol)) {
+                hasDigit = true;
+            }
+            if (!Character.isLetterOrDigit(symbol)) {
+                hasSpecial = true;
+            }
+            if (hasUpCase && hasLowCase && hasDigit && hasSpecial) {
+                break;
+            }
+        }
 
         if (!hasMoreEightLessThirtyTwo) {
             throw new IllegalArgumentException(
