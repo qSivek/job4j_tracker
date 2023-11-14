@@ -1,0 +1,15 @@
+package ru.job4j.stream;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Profiles {
+
+    public static List<Address> collect(List<Profile> profiles) {
+        return profiles.stream()
+                .map(x -> new Address(
+                        x.address().city(), x.address().street(),
+                        x.address().home(), x.address().apartment()))
+                .collect(Collectors.toList());
+    }
+}
