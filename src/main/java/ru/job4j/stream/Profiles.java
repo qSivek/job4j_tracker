@@ -8,9 +8,7 @@ public class Profiles {
 
     public static List<Address> collect(List<Profile> profiles) {
         return profiles.stream()
-                .map(x -> new Address(
-                        x.address().city(), x.address().street(),
-                        x.address().home(), x.address().apartment()))
+                .map(Profile::address)
                 .collect(Collectors.toList());
     }
 
