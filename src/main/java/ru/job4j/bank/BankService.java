@@ -14,6 +14,7 @@ public class BankService {
     /**
      * Метод принимает на вход пользователя которого нужно добавить.
      * Если пользователь уже есть в системе, то добавление не происходит.
+     *
      * @param user пользователь, которого нужно добавить
      */
     public void addUser(User user) {
@@ -22,6 +23,7 @@ public class BankService {
 
     /**
      * Метод удаляет пользователя из хранилища по параметру паспорта.
+     *
      * @param passport паспорт пользователя которого хотим удалить.
      */
     public void deleteUser(String passport) {
@@ -31,8 +33,9 @@ public class BankService {
     /**
      * Данный метод добавляет новый счет к пользователю.
      * Если у пользователя есть такой же счет, то добавление не происходит
+     *
      * @param passport паспорт пользователя которому хотим добавить счет
-     * @param account счет пользователя который нужно добавить
+     * @param account  счет пользователя который нужно добавить
      */
     public void addAccount(String passport, Account account) {
         User user = findByPassport(passport);
@@ -43,44 +46,44 @@ public class BankService {
 
     /**
      * Метод ищет пользователя по параметру паспорта.
+     *
      * @param passport паспорт пользователя которого хотим найти
      * @return возвращает найденного пользователя или null если пользователь не найден
      */
     public User findByPassport(String passport) {
-        for (User user : users.keySet()) {
-            if (passport.equals(user.getPassport())) {
-                return user;
-            }
-        }
-        return null;
+        return users.keySet().stream()
+                .filter(x -> passport.equals(x.getPassport()))
+                .findFirst()
+                .orElse(null);
     }
 
     /**
      * Метод ищет счет пользователя по параметру паспорта и номеру счета
-     * @param passport паспорт пользователя, аккаунт которого хотим найти
+     *
+     * @param passport  паспорт пользователя, аккаунт которого хотим найти
      * @param requisite номер счета который хотим найти у пользователя
      * @return возвращает счет пользователя или null если он не найден
      */
     public Account findByRequisite(String passport, String requisite) {
         User user = findByPassport(passport);
-        if (user != null) {
-            for (Account account : users.get(user)) {
-                if (account.getRequisite().equals(requisite)) {
-                    return account;
-                }
-            }
+        if (user == null) {
+            return null;
         }
-        return null;
+        return users.get(user).stream()
+                .filter(x -> x.getRequisite().equals(requisite))
+                .findFirst()
+                .orElse(null);
     }
 
     /**
      * Метод предназначен для перевода денежных средств с одного счета на другой
      * Если счет не найден или не хватает денежных средств, метод возвращает {@code false}
-     * @param srcPassport паспорт пользователя со счета которого осуществляется перевод
-     * @param srcRequisite номер счета пользователя со счета которого осуществляется перевод
-     * @param destPassport паспорт пользователя на счет которого осуществляется перевод
+     *
+     * @param srcPassport   паспорт пользователя со счета которого осуществляется перевод
+     * @param srcRequisite  номер счета пользователя со счета которого осуществляется перевод
+     * @param destPassport  паспорт пользователя на счет которого осуществляется перевод
      * @param destRequisite номер счета пользователя на который осуществляется перевод
-     * @param amount количество денежных средств которые нужно перевести
+     * @param amount        количество денежных средств которые нужно перевести
      * @return {@code true} если перевод успешен
      */
     public boolean transferMoney(String srcPassport, String srcRequisite,
